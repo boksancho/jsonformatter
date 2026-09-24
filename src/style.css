@@ -1,3 +1,149 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.md-body {
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.md-body h1,
+.md-body h2,
+.md-body h3,
+.md-body h4 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.md-body h1 {
+  font-size: 1.5rem;
+}
+.md-body h2 {
+  font-size: 1.25rem;
+}
+.md-body h3 {
+  font-size: 1.125rem;
+}
+
+.md-body p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.md-body ul,
+.md-body ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+.md-body ol {
+  list-style: decimal;
+}
+
+.md-body a {
+  color: var(--color-indigo-600);
+  text-decoration: underline;
+}
+
+.md-body code {
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+}
+
+.md-body pre {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  overflow: auto;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+}
+.md-body pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.md-body blockquote {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-left: 4px solid;
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.md-body table {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-collapse: collapse;
+}
+.md-body th,
+.md-body td {
+  border: 1px solid;
+  padding: 0.25rem 0.75rem;
+}
+
+.md-body hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* theme-aware colors */
+.md-body {
+  color: var(--color-zinc-700);
+}
+.dark .md-body {
+  color: var(--color-zinc-300);
+}
+.md-body h1,
+.md-body h2,
+.md-body h3,
+.md-body h4 {
+  color: var(--color-zinc-900);
+}
+.dark .md-body h1,
+.dark .md-body h2,
+.dark .md-body h3,
+.dark .md-body h4 {
+  color: var(--color-zinc-100);
+}
+.dark .md-body a {
+  color: var(--color-indigo-400);
+}
+.md-body code {
+  background: var(--color-zinc-100);
+}
+.dark .md-body code {
+  background: var(--color-zinc-800);
+}
+.md-body pre {
+  background: var(--color-zinc-100);
+}
+.dark .md-body pre {
+  background: var(--color-zinc-900);
+}
+.md-body pre code {
+  background: transparent;
+}
+.md-body blockquote {
+  border-color: var(--color-zinc-300);
+  color: var(--color-zinc-500);
+}
+.dark .md-body blockquote {
+  border-color: var(--color-zinc-700);
+}
+.md-body th,
+.md-body td {
+  border-color: var(--color-zinc-300);
+}
+.dark .md-body th,
+.dark .md-body td {
+  border-color: var(--color-zinc-700);
+}
+.md-body hr {
+  border-color: var(--color-zinc-200);
+}
+.dark .md-body hr {
+  border-color: var(--color-zinc-800);
+}
