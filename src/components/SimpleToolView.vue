@@ -4,14 +4,15 @@ import TextArea from './TextArea.vue'
 import ErrorBox from './ErrorBox.vue'
 import TwoPane from './TwoPane.vue'
 import { useCopy } from '../composables/useCopy'
+import { usePersisted } from '../composables/usePersisted'
 import { btn, btnPrimary, toolbarCls, divider } from '../ui'
 import type { SimpleTool } from '../tools/simple/types'
 
-const props = defineProps<{ def: SimpleTool }>()
+const props = defineProps<{ def: SimpleTool; id: string }>()
 
-const input = ref('')
+const input = usePersisted(`tool:${props.id}:input`, '')
 const mode = ref(props.def.modes?.[0]?.id ?? 'default')
-const debounced = ref('')
+const debounced = ref(input.value)
 const output = ref('')
 const error = ref('')
 

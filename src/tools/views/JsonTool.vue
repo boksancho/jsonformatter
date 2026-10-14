@@ -4,6 +4,7 @@ import Toolbar from '../../components/Toolbar.vue'
 import JsonEditor from '../../components/JsonEditor.vue'
 import JsonOutput from '../../components/JsonOutput.vue'
 import { formatJson, minifyJson, parseJson, tokenizeJson } from '../../utils/json'
+import { usePersisted } from '../../composables/usePersisted'
 
 const SAMPLE = `{
   "name": "JSON Formatter",
@@ -20,12 +21,12 @@ const SAMPLE = `{
   }
 }`
 
-const input = ref('')
-const indent = ref(2)
+const input = usePersisted('json:input', '')
+const indent = usePersisted('json:indent', 2)
 const tab = ref<'formatted' | 'tree'>('formatted')
-const mode = ref<'pretty' | 'minified'>('pretty')
+const mode = usePersisted<'pretty' | 'minified'>('json:mode', 'pretty')
 const copied = ref(false)
-const debouncedInput = ref('')
+const debouncedInput = ref(input.value)
 
 let timer: ReturnType<typeof setTimeout> | undefined
 watch(input, (v) => {

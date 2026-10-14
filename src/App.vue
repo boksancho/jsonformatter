@@ -100,7 +100,7 @@ const currentTool = computed<ToolMeta | undefined>(
     <div class="flex min-h-0 flex-1">
       <Sidebar :open="menuOpen" @close="menuOpen = false" />
       <main class="flex min-w-0 flex-1 flex-col">
-        <RouterView />
+        <RouterView :key="route.path" />
       </main>
     </div>
   </div>

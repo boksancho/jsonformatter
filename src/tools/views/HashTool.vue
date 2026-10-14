@@ -3,12 +3,13 @@ import { ref, watch } from 'vue'
 import TextArea from '../../components/TextArea.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { useCopy } from '../../composables/useCopy'
+import { usePersisted } from '../../composables/usePersisted'
 import { btn, toolbarCls } from '../../ui'
 
 const ALGOS = ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'] as const
 
-const input = ref('')
-const debounced = ref('')
+const input = usePersisted('hash:input', '')
+const debounced = ref(input.value)
 const hashes = ref<Record<string, string>>({})
 const { copied, copy } = useCopy()
 const copiedAlgo = ref('')

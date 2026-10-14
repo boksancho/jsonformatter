@@ -5,8 +5,9 @@ import TextArea from '../../components/TextArea.vue'
 import ErrorBox from '../../components/ErrorBox.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { btn, toolbarCls, field } from '../../ui'
+import { usePersisted } from '../../composables/usePersisted'
 
-const input = ref('https://example.com')
+const input = usePersisted('qr:input', 'https://example.com')
 const size = ref(256)
 const dataUrl = ref('')
 const error = ref('')

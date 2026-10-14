@@ -2,9 +2,10 @@
 import { computed, ref } from 'vue'
 import ErrorBox from '../../components/ErrorBox.vue'
 import { btn, toolbarCls, field, paneLabel } from '../../ui'
+import { usePersisted } from '../../composables/usePersisted'
 
-const input = ref(String(Math.floor(Date.now() / 1000)))
-const dateInput = ref('')
+const input = usePersisted('timestamp:input', String(Math.floor(Date.now() / 1000)))
+const dateInput = usePersisted('timestamp:dateInput', '')
 const copiedKey = ref('')
 
 const parsed = computed(() => {
