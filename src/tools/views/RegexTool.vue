@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive } from 'vue'
 import TextArea from '../../components/TextArea.vue'
 import ErrorBox from '../../components/ErrorBox.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { btn, toolbarCls, field } from '../../ui'
+import { usePersisted } from '../../composables/usePersisted'
 
 const FLAG_OPTIONS = [
   { id: 'i', label: 'i', hint: 'case insensitive' },
@@ -13,9 +14,12 @@ const FLAG_OPTIONS = [
   { id: 'y', label: 'y', hint: 'sticky' },
 ] as const
 
-const pattern = ref('\\b[\\w.]+@[\\w.]+\\.[a-z]{2,}\\b')
+const pattern = usePersisted('regex:pattern', '\\b[\\w.]+@[\\w.]+\\.[a-z]{2,}\\b')
 const flags = reactive<Record<string, boolean>>({ i: true, m: false, s: false, u: false, y: false })
-const testText = ref('Contact ada@example.com or alan@dev.io,\nnot an-email@')
+const testText = usePersisted(
+  'regex:testText',
+  'Contact ada@example.com or alan@dev.io,\nnot an-email@',
+)
 
 const compiled = computed(() => {
   const f = 'g' + FLAG_OPTIONS.filter((x) => flags[x.id]).map((x) => x.id).join('')

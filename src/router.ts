@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
       path: `/${t.id}`,
       name: t.id,
       component: simple ? () => import('./components/SimpleToolView.vue') : t.component!,
-      props: simple ? { def: simple } : undefined,
+      props: simple ? { def: simple, id: t.id } : undefined,
       meta: { tool: t },
     }
   }),

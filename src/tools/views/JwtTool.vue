@@ -4,6 +4,7 @@ import TextArea from '../../components/TextArea.vue'
 import ErrorBox from '../../components/ErrorBox.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { btn, toolbarCls } from '../../ui'
+import { usePersisted } from '../../composables/usePersisted'
 
 function b64urlDecode(part: string): string {
   const s = part.replace(/-/g, '+').replace(/_/g, '/')
@@ -16,7 +17,7 @@ function b64urlDecode(part: string): string {
 const SAMPLE =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkYSBMb3ZlbGFjZSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxOTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 
-const input = ref('')
+const input = usePersisted('jwt:input', '')
 const copiedPart = ref('')
 
 type Decoded =

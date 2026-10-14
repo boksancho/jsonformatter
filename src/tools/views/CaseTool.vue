@@ -3,8 +3,9 @@ import { computed, ref } from 'vue'
 import TextArea from '../../components/TextArea.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { btn, toolbarCls } from '../../ui'
+import { usePersisted } from '../../composables/usePersisted'
 
-const input = ref('')
+const input = usePersisted('case:input', '')
 const copiedCase = ref('')
 
 const words = computed(() =>

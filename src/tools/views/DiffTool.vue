@@ -4,9 +4,10 @@ import { diffLines } from 'diff'
 import TextArea from '../../components/TextArea.vue'
 import { btn, toolbarCls, paneLabel } from '../../ui'
 import { useCopy } from '../../composables/useCopy'
+import { usePersisted } from '../../composables/usePersisted'
 
-const original = ref('line one\nline two\nline three')
-const changed = ref('line one\nline 2\nline three\nline four')
+const original = usePersisted('diff:original', 'line one\nline two\nline three')
+const changed = usePersisted('diff:changed', 'line one\nline 2\nline three\nline four')
 const debounced = ref<[string, string]>(['', ''])
 const { copied, copy } = useCopy()
 

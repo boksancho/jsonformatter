@@ -4,6 +4,7 @@ import { marked } from 'marked'
 import TextArea from '../../components/TextArea.vue'
 import TwoPane from '../../components/TwoPane.vue'
 import { useCopy } from '../../composables/useCopy'
+import { usePersisted } from '../../composables/usePersisted'
 import { btn, toolbarCls } from '../../ui'
 
 const SAMPLE = `# Markdown preview
@@ -20,8 +21,8 @@ const hi = 'hello'
 
 > Blockquotes work too.`
 
-const input = ref(SAMPLE)
-const debounced = ref(SAMPLE)
+const input = usePersisted('markdown:input', SAMPLE)
+const debounced = ref(input.value)
 const tab = ref<'preview' | 'html'>('preview')
 const { copied, copy } = useCopy()
 
