@@ -1,4 +1,5 @@
 import type { SimpleTool } from './types'
+import { unzipString } from '../../utils/unzip'
 
 function base64Encode(input: string): string {
   const bytes = new TextEncoder().encode(input)
@@ -27,18 +28,7 @@ export const base64Tool: SimpleTool = {
 export const unzipStringTool: SimpleTool = {
   placeholder: 'Paste a Base64-encoded zlib/deflate string...',
   sample: 'eJzzSM3JyddRKM8vyklRBAAgXgSK',
-  run: async (input) => {
-    const base64 = input.trim().replace(/\s/g, '').replace(/-/g, '+').replace(/_/g, '/')
-    if (!base64 || !/^[A-Za-z0-9+/]*={0,2}$/.test(base64) || base64.length % 4 === 1) {
-      throw new Error('Input must be a Base64-encoded zlib/deflate string')
-    }
-
-    const binary = atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '='))
-    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0))
-    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate'))
-    const decompressed = await new Response(stream).arrayBuffer()
-    return new TextDecoder('utf-8', { fatal: true }).decode(decompressed)
-  },
+  run: (input) => unzipString(input),
 }
 
 export const urlTool: SimpleTool = {

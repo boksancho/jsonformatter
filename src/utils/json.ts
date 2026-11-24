@@ -1,3 +1,5 @@
+import { unzipString } from './unzip'
+
 export interface ParseError {
   message: string
   line?: number
@@ -48,6 +50,33 @@ export function formatJson(data: unknown, indent: number): string {
 
 export function minifyJson(data: unknown): string {
   return JSON.stringify(data)
+}
+
+export async function withUnzippedAttributes(data: unknown): Promise<unknown> {
+  if (Array.isArray(data)) {
+    return Promise.all(data.map((item) => withUnzippedAttributes(item)))
+  }
+  if (data === null || typeof data !== 'object') return data
+
+  const source = data as Record<string, unknown>
+  let unzipped = ''
+  let hasUnzipped = false
+  if (typeof source._$zip === 'string') {
+    try {
+      unzipped = await unzipString(source._$zip)
+      hasUnzipped = true
+    } catch {
+      hasUnzipped = false
+    }
+  }
+
+  const result: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(source)) {
+    if (key === '_$unzip' && hasUnzipped) continue
+    result[key] = await withUnzippedAttributes(value)
+    if (key === '_$zip' && hasUnzipped) result._$unzip = unzipped
+  }
+  return result
 }
 
 export function jsonType(v: unknown): 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null' {

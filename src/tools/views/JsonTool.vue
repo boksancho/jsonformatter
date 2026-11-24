@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import Toolbar from '../../components/Toolbar.vue'
 import JsonEditor from '../../components/JsonEditor.vue'
 import JsonOutput from '../../components/JsonOutput.vue'
-import { formatJson, minifyJson, parseJson, tokenizeJson } from '../../utils/json'
+import { formatJson, minifyJson, parseJson, tokenizeJson, withUnzippedAttributes } from '../../utils/json'
 import { usePersisted } from '../../composables/usePersisted'
 
 const SAMPLE = `{
@@ -38,11 +38,40 @@ const result = computed(() =>
   debouncedInput.value.trim() === '' ? null : parseJson(debouncedInput.value),
 )
 
+const unzippedData = shallowRef<unknown>()
+let unzipRun = 0
+watch(
+  result,
+  (parseResult) => {
+    const run = ++unzipRun
+    if (!parseResult?.ok) {
+      unzippedData.value = undefined
+      return
+    }
+    unzippedData.value = parseResult.data
+    void withUnzippedAttributes(parseResult.data)
+      .then((data) => {
+        if (run === unzipRun) unzippedData.value = data
+      })
+      .catch(() => {})
+  },
+  { immediate: true },
+)
+
+const displayResult = computed(() => {
+  const parseResult = result.value
+  if (!parseResult?.ok) return parseResult
+  return {
+    ok: true as const,
+    data: unzippedData.value === undefined ? parseResult.data : unzippedData.value,
+  }
+})
+
 const output = computed(() => {
-  if (!result.value?.ok) return ''
+  if (!displayResult.value?.ok) return ''
   return mode.value === 'pretty'
-    ? formatJson(result.value.data, indent.value)
-    : minifyJson(result.value.data)
+    ? formatJson(displayResult.value.data, indent.value)
+    : minifyJson(displayResult.value.data)
 })
 
 const tokens = computed(() => tokenizeJson(output.value))
@@ -119,7 +148,7 @@ function onClear() {
         <JsonEditor v-model="input" />
       </section>
       <section class="flex min-h-[40vh] flex-1 flex-col overflow-hidden">
-        <JsonOutput v-model:tab="tab" :result="result" :output="output" :tokens="tokens" />
+        <JsonOutput v-model:tab="tab" :result="displayResult" :output="output" :tokens="tokens" />
       </section>
     </main>
   </div>
