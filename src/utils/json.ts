@@ -59,11 +59,16 @@ export async function withUnzippedAttributes(data: unknown): Promise<unknown> {
   if (data === null || typeof data !== 'object') return data
 
   const source = data as Record<string, unknown>
-  let unzipped = ''
+  let unzipped: unknown = ''
   let hasUnzipped = false
   if (typeof source._$zip === 'string') {
     try {
-      unzipped = await unzipString(source._$zip)
+      const text = await unzipString(source._$zip)
+      try {
+        unzipped = await withUnzippedAttributes(JSON.parse(text))
+      } catch {
+        unzipped = text
+      }
       hasUnzipped = true
     } catch {
       hasUnzipped = false
