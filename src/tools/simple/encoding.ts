@@ -1,4 +1,5 @@
 import type { SimpleTool } from './types'
+import { unzipString } from '../../utils/unzip'
 
 function base64Encode(input: string): string {
   const bytes = new TextEncoder().encode(input)
@@ -22,6 +23,12 @@ export const base64Tool: SimpleTool = {
     { id: 'decode', label: 'Decode' },
   ],
   run: (input, mode) => (mode === 'encode' ? base64Encode(input) : base64Decode(input)),
+}
+
+export const unzipStringTool: SimpleTool = {
+  placeholder: 'Paste a Base64-encoded zlib/deflate string...',
+  sample: 'eJzzSM3JyddRKM8vyklRBAAgXgSK',
+  run: (input) => unzipString(input),
 }
 
 export const urlTool: SimpleTool = {

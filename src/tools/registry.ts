@@ -66,6 +66,13 @@ export const tools: ToolMeta[] = [
     keywords: ['atob', 'btoa', 'encode', 'decode'],
   },
   {
+    id: 'unzip-string',
+    name: 'Unzip String',
+    description: 'Decompress a Base64-encoded zlib/deflate string',
+    category: 'Encoders',
+    keywords: ['inflate', 'zlib', 'deflate', 'decompress', 'base64'],
+  },
+  {
     id: 'url-encode',
     name: 'URL Encoder',
     description: 'Encode and decode URL components',

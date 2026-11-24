@@ -6,7 +6,7 @@ A collection of fast, client-side developer utilities built with Vue 3, TypeScri
 
 **Formatters** — JSON (with tree view), XML, JavaScript (Prettier), JS minifier (Terser), CSS/SCSS/Less
 
-**Encoders** — Base64, URL, HTML entities, JavaScript string escape
+**Encoders** — Base64, zlib/deflate string decompression, URL, HTML entities, JavaScript string escape
 
 **Converters** — YAML ↔ JSON, CSV ↔ JSON, JSON → TypeScript interfaces, Unix timestamp, Markdown preview, text case converter
 
